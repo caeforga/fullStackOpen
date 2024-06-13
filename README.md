@@ -29,6 +29,7 @@ For more details, visit the [Full Stack Open course website](https://fullstackop
 
 This repository is organized by parts, following the structure of the course:
 
+```
 fullStackOpen/
 │
 ├── part1/
@@ -47,6 +48,7 @@ fullStackOpen/
 │ └── ...
 │
 └── ...
+```
 
 Each part contains subdirectories for the individual exercises or projects.
 
