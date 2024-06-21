@@ -1,16 +1,31 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import personService from './services/Persons'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import './App.css'
 
+  const Notification = ({ message, type }) => {
+    if (message === null) {
+      return null;
+    }
+
+    const className = type === 'error' ? 'error' : 'notification';
+
+    return (
+      <div className={className}>
+        {message}
+      </div>
+    );
+  }
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [nameFiltered, setNameFiltered] = useState('')
+  const [message, setMessage] = useState(null)
+  const [messageType, setMessageType] = useState(null)
 
   useEffect(() => {
     personService
@@ -34,6 +49,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
+        showMessage(`Added ${returnedPerson.name}`)
       })
   }
 
@@ -45,9 +61,19 @@ const App = () => {
           setPersons(persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson))
           setNewName('')
           setNewNumber('')
+          showMessage(`Updated ${returnedPerson.name}`)
         })
     }
   }
+
+  const showMessage = (message, type = 'success', displayDuration = 3000) => {
+    setMessage(message);
+    setMessageType(type);
+    setTimeout(() => {
+      setMessage(null);
+      setMessageType(null);
+    }, displayDuration);
+  };
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -68,9 +94,10 @@ const App = () => {
         .remove(id)
         .then(() => {
           setPersons(persons.filter(person => person.id !== id))
+          showMessage(`Deleted ${person.name}`, 'error')
         })
         .catch(() => {
-          alert(`Information of ${person.name} has already been removed from server`)
+          showMessage(`Information of ${person.name} has already been removed from server`, 'error')
           setPersons(persons.filter(person => person.id !== id))
         })
     }
@@ -81,6 +108,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} type={messageType} />
       <Filter text={nameFiltered} handleNameFiltered={handleNameFiltered} />
       <h2>Add a new</h2>
       <PersonForm newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} addName={addName} />
