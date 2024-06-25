@@ -20,6 +20,10 @@ const App = () => {
     setSearch(e.target.value)
   }
 
+  const handleCountry = (e) => {
+    setSearch(e.target.previousSibling.textContent)
+  }
+
   const countriesFiltered = search ?
     countries.filter(country => country.name.common.toLowerCase().includes(search.toLowerCase()))
     : []
@@ -30,7 +34,7 @@ const App = () => {
       
       {search === '' ? null :
         countriesFiltered.length > 10 ? 'Too many matches, specify another filter' :
-        <Countries countries={countriesFiltered} />
+        <Countries countries={countriesFiltered} handleCountry={handleCountry}/>
       }
     </>
   )
