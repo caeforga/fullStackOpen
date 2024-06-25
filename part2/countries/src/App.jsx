@@ -20,8 +20,8 @@ const App = () => {
     setSearch(e.target.value)
   }
 
-  const handleCountry = (e) => {
-    setSearch(e.target.previousSibling.textContent)
+  const handleCountry = (countryName) => {
+    setSearch(countryName)
   }
 
   const countriesFiltered = search ?
