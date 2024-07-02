@@ -4,16 +4,31 @@ GET http://localhost:3001/api/persons
 GET http://localhost:3001/info
 
 ###
-GET http://localhost:3001/api/persons/2
+GET http://localhost:3001/api/persons/667de0c4f57bfc82137e1ee4
 
 ###
-DELETE http://localhost:3001/api/persons/4
+DELETE http://localhost:3001/api/persons/667e39f2045e096abe643bc0
 
 ###
 POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-    "name": "Carlos Ortega",
-    "number": "315-5952543"
+    "name": "Ricardo",
+    "number": "040-22334455"
 }
+
+###
+PUT http://localhost:3001/api/persons/667f27890b3b54ae5ec2d638
+Content-Type: application/json
+
+{
+    "name": "Erika Urbina",
+    "number": "09-1234556"
+}
+
+###
+GET http://localhost:3001/info
+
+###
+GET http://localhost:3001/
