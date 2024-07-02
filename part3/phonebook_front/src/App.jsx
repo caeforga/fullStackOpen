@@ -51,6 +51,9 @@ const App = () => {
         setNewNumber('')
         showMessage(`Added ${returnedPerson.name}`)
       })
+      .catch(error => {
+        showMessage(error.response.data.error, 'error')
+      })
   }
 
   const updatePerson = (personExist, newPerson) => {
