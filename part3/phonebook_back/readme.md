@@ -1,7 +1,7 @@
 How you can use the API:
 
 ```markdown
-// .md to show api https://phonebook-back-qzhe.onrender.com/
+// .md to show api https://phonebook-ycpg.onrender.com/
 
 To retrieve all contacts from the phonebook, you can send a GET request to the following endpoint:
 
