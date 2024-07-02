@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-require('../../backend/models/note')
 
 mongoose.set('strictQuery', false)
 
