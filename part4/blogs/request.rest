@@ -1,0 +1,12 @@
+GET http://localhost:3003/api/blogs
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Cows",
+    "author": "Carlos Mencia",
+    "url": "http://www.cows.com",
+    "likes": 3
+}
