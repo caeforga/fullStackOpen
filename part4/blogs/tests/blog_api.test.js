@@ -1,4 +1,4 @@
-const { test, after, beforeEach } = require('node:test')
+const { test, after, beforeEach, describe } = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
@@ -39,7 +39,7 @@ test('a valid blog can be added 🧐', async () => {
         url: 'http://google.com',
         likes: 68,
     }
-    
+
     await api
         .post('/api/blogs')
         .send(newBlog)
@@ -106,6 +106,81 @@ test('should return 400 if title are missing 🧐', async () => {
     assert.strictEqual(response.body.error.includes('`title` is required'), true)
 })
 
-after(async() => {
+describe('deletion of a blog post', () => {
+
+    test('deleting a blog post 🧐', async () => {
+        const blogsAtStart = await helper.blogsInDb()
+        const blogToDelete = blogsAtStart[0]
+
+        await api
+            .delete(`/api/blogs/${blogToDelete.id}`)
+            .expect(204)
+
+        const blogsAtEnd = await helper.blogsInDb()
+
+        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+
+        const contents = blogsAtEnd.map(r => r.title)
+
+        assert(!contents.includes(blogToDelete.title))
+    })
+
+    test('deleting a blog post with invalid id 🧐', async () => {
+
+        const invalidId = '5a3d5da59070081a82a3445'
+
+        await api
+            .delete(`/api/blogs/${invalidId}`)
+            .expect(400)
+    })
+})
+
+describe('updating a specific blog post', () => {
+
+    test('succeeds with valid id and data, and verifies the update 🧐', async () => {
+        const blogsAtStart = await helper.blogsInDb()
+        const blogToUpdate = blogsAtStart[0]
+
+        const newBlog = {
+            title: 'Updated title',
+            author: 'Updated author',
+            url: 'http://google.com',
+            likes: 68,
+        }
+
+        await api
+            .put(`/api/blogs/${blogToUpdate.id}`)
+            .send(newBlog)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        const updatedBlog = blogsAtEnd.find(b => b.id === blogToUpdate.id)
+
+        assert.strictEqual(updatedBlog.title, newBlog.title)
+        assert.strictEqual(updatedBlog.author, newBlog.author)
+        assert.strictEqual(updatedBlog.url, newBlog.url)
+        assert.strictEqual(updatedBlog.likes, newBlog.likes)
+    })
+
+    test('fails with status code 400 for invalid id 🧐', async () => {
+        const invalidId = '5a3d5da59070081a82a3445'
+
+        const newBlog = {
+            title: 'Updated title',
+            author: 'Updated author',
+            url: 'http://google.com',
+            likes: 68,
+        }
+
+        await api
+            .put(`/api/blogs/${invalidId}`)
+            .send(newBlog)
+            .expect(400)
+    })
+
+})
+
+after(async () => {
     await mongoose.connection.close()
 })

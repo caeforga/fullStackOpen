@@ -5,8 +5,19 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Cows",
-    "author": "Carlos Mencia",
-    "url": "http://www.cows.com",
-    "likes": 3
+    "title": "Example",
+    "author": "Carlos Ortiz",
+    "url": "http://www.example.com",
+    "likes": 34
+}
+
+###
+DELETE http://localhost:3003/api/blogs/669933f3b6189ead23e6523c
+
+###
+PUT http://localhost:3003/api/blogs/669934d0b6189ead23e65247
+Content-Type: application/json
+
+{
+    "likes": 350
 }
