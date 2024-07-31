@@ -3,12 +3,14 @@ GET http://localhost:3003/api/blogs
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNhcmxvcyIsImlkIjoiNjZhMmFkY2NhZmMwM2IyNGI2MzdjNjY2IiwiaWF0IjoxNzIyNDU2NzA4LCJleHAiOjE3MjI0NjAzMDh9.iEg_8leLkCjzCE_rKTNA94Q6NUvseDS_IA6nMVN5k0w
 
 {
-    "title": "Example",
+    "title": "Example with token 2",
     "author": "Carlos Ortiz",
     "url": "http://www.example.com",
-    "likes": 34
+    "likes": 34,
+    "userId": "66a2adccafc03b24b637c666"
 }
 
 ###
@@ -20,4 +22,26 @@ Content-Type: application/json
 
 {
     "likes": 350
+}
+
+###
+get http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "carlos",
+    "name": "root",
+    "password": "123456"
+}
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "carlos",
+    "password": "123456"
 }
